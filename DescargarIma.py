@@ -4,8 +4,8 @@ from google_images_search import GoogleImagesSearch
 from urllib.parse import urlparse
 
 # Configuración de la API de Google Images Search
-google_search_cx = '632f67be0671c4172'  # Reemplaza 'tu_cx' con tu propio cx
-google_search_api_key = 'AIzaSyASm9RMn1jLDEStl3FpZasPMySVj7yf0XY'  # Reemplaza 'tu_api_key' con tu propia clave API
+google_search_cx = 'xxxxxx'  # Reemplaza 'tu_cx' con tu propio cx
+google_search_api_key = 'xxxxxxxxxxx'  # Reemplaza 'tu_api_key' con tu propia clave API
 
 # Configuración del tema de búsqueda
 search_query = 'Bikes'
