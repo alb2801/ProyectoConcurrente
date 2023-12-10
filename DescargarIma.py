@@ -55,11 +55,10 @@ def download_image(index):
     except Exception as e:
         print(f"Error al descargar la imagen {index + 1}: {str(e)}")
 
-def duplicate_images(image_path):
-    base_name, extension = os.path.splitext(os.path.basename(image_path))
+# Duplicar imágenes con 10 hilos
+def duplicate_images(image_path, index):
     for i in range(1, 101):
-        new_name = f"imagen_{total_images + i}{extension}"
-        duplicate_path = os.path.join(output_directory, new_name)
+        duplicate_path = os.path.join(output_directory, f"imagen_{index + 100 * i}.jpg")
         os.system(f"copy {image_path} {duplicate_path}")
         print(f"Imagen duplicada: {duplicate_path}")
 
@@ -72,6 +71,6 @@ print("Descarga de imágenes completada.")
 # Duplicar imágenes con 10 hilos
 with ThreadPoolExecutor(max_workers=10) as executor:
     image_paths = [os.path.join(output_directory, f"imagen_{i + 1}.jpg") for i in range(total_images)]
-    executor.map(duplicate_images, image_paths)
+    executor.map(duplicate_images, image_paths, range(total_images))
 
 print("Duplicación de imágenes completada.")
