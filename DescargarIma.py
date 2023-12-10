@@ -4,21 +4,21 @@ from urllib.parse import urlparse
 import random
 import time
 from concurrent.futures import ThreadPoolExecutor
-"""
+
 # Configuración de la API de Google Images Search
 google_search_cx = '632f67be0671c4172'  # Reemplaza 'tu_cx' con tu propio cx
 google_search_api_key = 'AIzaSyBaISwCxV3YqJ3TFKeJopiqxzRt1uhrVmI'  # Reemplaza 'tu_api_key' con tu propia clave API
 
 # Configuración del tema de búsqueda
 search_query = 'paisajes'
-"""
+
 # Configuración del número total de imágenes
 total_images = 100
 
 # Directorio de destino para las imágenes descargadas
 output_directory = 'imagenes'
 os.makedirs(output_directory, exist_ok=True)
-"""
+
 def download_image(index):
     gis = GoogleImagesSearch(google_search_api_key, google_search_cx)
 
@@ -54,7 +54,7 @@ def download_image(index):
 
     except Exception as e:
         print(f"Error al descargar la imagen {index + 1}: {str(e)}")
-"""
+
 def duplicate_images(image_path):
     base_name, extension = os.path.splitext(os.path.basename(image_path))
     for i in range(1, 101):
@@ -62,13 +62,13 @@ def duplicate_images(image_path):
         duplicate_path = os.path.join(output_directory, new_name)
         os.system(f"copy {image_path} {duplicate_path}")
         print(f"Imagen duplicada: {duplicate_path}")
-"""
+
 # Descargar imágenes de manera secuencial
 for i in range(total_images):
     download_image(i)
 
 print("Descarga de imágenes completada.")
-"""
+
 # Duplicar imágenes con 10 hilos
 with ThreadPoolExecutor(max_workers=10) as executor:
     image_paths = [os.path.join(output_directory, f"imagen_{i + 1}.jpg") for i in range(total_images)]
