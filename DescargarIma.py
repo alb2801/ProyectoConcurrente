@@ -1,80 +1,77 @@
 import os
-import threading
 from google_images_search import GoogleImagesSearch
 from urllib.parse import urlparse
-
+import random
+import time
+from concurrent.futures import ThreadPoolExecutor
+"""
 # Configuración de la API de Google Images Search
-google_search_cx = 'xxxxxx'  # Reemplaza 'tu_cx' con tu propio cx
-google_search_api_key = 'xxxxxxxxxxx'  # Reemplaza 'tu_api_key' con tu propia clave API
+google_search_cx = '632f67be0671c4172'  # Reemplaza 'tu_cx' con tu propio cx
+google_search_api_key = 'AIzaSyBaISwCxV3YqJ3TFKeJopiqxzRt1uhrVmI'  # Reemplaza 'tu_api_key' con tu propia clave API
 
 # Configuración del tema de búsqueda
-search_query = 'Bikes'
-
-# Configuración del número total de imágenes y el número de hilos
+search_query = 'paisajes'
+"""
+# Configuración del número total de imágenes
 total_images = 100
-threads_count = 10
-
-# Calcular el número de imágenes por hilo
-images_per_thread = total_images // threads_count
 
 # Directorio de destino para las imágenes descargadas
 output_directory = 'imagenes'
 os.makedirs(output_directory, exist_ok=True)
-
-# Lock para evitar conflictos en el acceso al sistema de archivos
-file_lock = threading.Lock()
-
-def download_images(start_index, end_index):
+"""
+def download_image(index):
     gis = GoogleImagesSearch(google_search_api_key, google_search_cx)
 
-    for i in range(start_index, end_index):
-        try:
-            search_params = {
-                'q': search_query,
-                'num': images_per_thread,
-                'start': i + 1
-            }
+    try:
+        search_params = {
+            'q': search_query,
+            'num': 10,  # Intentaremos obtener 10 resultados y seleccionar uno aleatorio
+            'start': index + 1
+        }
 
-            gis.search(search_params)
-            results = gis.results()
+        gis.search(search_params)
+        results = gis.results()
 
-            if results:
-                image_url = results[0].url
-                image_filename = f"imagen_{i + 1}.jpg"
-                if urlparse(image_url).path:
-                    image_filename = os.path.basename(urlparse(image_url).path)
+        if results:
+            # Seleccionar un resultado aleatorio
+            random_result = random.choice(results)
+            image_url = random_result.url
+            image_filename = f"imagen_{index + 1}.jpg"
+            if urlparse(image_url).path:
+                image_filename = os.path.basename(urlparse(image_url).path)
 
-                image_path = os.path.join(output_directory, image_filename)
+            image_path = os.path.join(output_directory, image_filename)
 
-                # Bloquear acceso al sistema de archivos antes de descargar
-                with file_lock:
-                    gis.download(image_url, path_to_dir=output_directory)
+            gis.download(image_url, path_to_dir=output_directory)
 
-                # Renombrar después de la descarga
-                new_image_path = os.path.join(output_directory, f"imagen_{i + 1}.jpg")
+            # Renombrar después de la descarga
+            new_image_path = os.path.join(output_directory, f"imagen_{index + 1}.jpg")
+            os.rename(image_path, new_image_path)
 
-                # Bloquear acceso al sistema de archivos antes de renombrar
-                with file_lock:
-                    os.rename(image_path, new_image_path)
+            print(f"Imagen {index + 1} descargada como {new_image_path}")
+        else:
+            print(f"No hay resultados para la búsqueda en la página {index + 1}")
 
-                print(f"Imagen {i + 1} descargada como {new_image_path}")
-            else:
-                print(f"No hay resultados para la búsqueda en la página {i + 1}")
-
-        except Exception as e:
-            print(f"Error al descargar la imagen {i + 1}: {str(e)}")
-
-# Crear y ejecutar los hilos
-threads = []
-for i in range(threads_count):
-    start_index = i * images_per_thread
-    end_index = start_index + images_per_thread
-    thread = threading.Thread(target=download_images, args=(start_index, end_index))
-    threads.append(thread)
-    thread.start()
-
-# Esperar a que todos los hilos finalicen
-for thread in threads:
-    thread.join()
+    except Exception as e:
+        print(f"Error al descargar la imagen {index + 1}: {str(e)}")
+"""
+def duplicate_images(image_path):
+    base_name, extension = os.path.splitext(os.path.basename(image_path))
+    for i in range(1, 101):
+        new_name = f"imagen_{total_images + i}{extension}"
+        duplicate_path = os.path.join(output_directory, new_name)
+        os.system(f"copy {image_path} {duplicate_path}")
+        print(f"Imagen duplicada: {duplicate_path}")
+"""
+# Descargar imágenes de manera secuencial
+for i in range(total_images):
+    download_image(i)
 
 print("Descarga de imágenes completada.")
+"""
+# Duplicar imágenes con 10 hilos
+with ThreadPoolExecutor(max_workers=10) as executor:
+    image_paths = [os.path.join(output_directory, f"imagen_{i + 1}.jpg") for i in range(total_images)]
+    executor.map(duplicate_images, image_paths)
+
+print("Duplicación de imágenes completada.")
