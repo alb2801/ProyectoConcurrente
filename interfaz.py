@@ -1,4 +1,7 @@
+# interfaz.py
+
 import streamlit as st
+from DescargarIma import download_and_duplicate_images
 
 def main():
     st.title("Configuración de Paralelismo")
@@ -31,6 +34,11 @@ def main():
         st.text(f"Cantidad de procesos: {num_procesos}")
 
     st.text(f"Ítem seleccionado: {lista_items}")
+
+    # Botón para ejecutar la descarga y duplicación de imágenes
+    if st.button("Iniciar Proceso"):
+        download_and_duplicate_images(tema, tipo_paralelismo, num_hilos, num_procesos, lista_items)
+        st.success("Proceso completado.")
 
 if __name__ == "__main__":
     main()
