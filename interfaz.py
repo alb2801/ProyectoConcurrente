@@ -4,10 +4,15 @@ import streamlit as st
 from DescargarIma import download_and_duplicate_images
 
 def main():
-    st.title("Configuración de Paralelismo")
+    st.title("Proyecto Concurrente")
 
     # Ingresar un tema
     tema = st.text_input("Ingrese el tema:")
+
+    # Botón para ejecutar la descarga y duplicación de imágenes
+    if st.button("Descargar imagenes"):
+        download_and_duplicate_images(tema)
+        st.success("Descargas de imagenes completadas.")
 
     # Selección en lista desplegable para el tipo de paralelismo
     tipo_paralelismo = st.selectbox("Seleccione el tipo de paralelismo:",
@@ -35,10 +40,6 @@ def main():
 
     st.text(f"Ítem seleccionado: {lista_items}")
 
-    # Botón para ejecutar la descarga y duplicación de imágenes
-    if st.button("Iniciar Proceso"):
-        download_and_duplicate_images(tema, tipo_paralelismo, num_hilos, num_procesos, lista_items)
-        st.success("Proceso completado.")
 
 if __name__ == "__main__":
     main()
