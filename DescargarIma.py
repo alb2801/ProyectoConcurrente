@@ -33,26 +33,20 @@ def download_and_duplicate_images(tema):
             gis.search(search_params)
             results = gis.results()
 
-            if results:
-                for result in results:
-                    image_url = result.url 
-                    image_filename = f"imagen_{index + 1}.jpg"
-                    if urlparse(image_url).path:
-                        image_filename = os.path.basename(urlparse(image_url).path)
-                    
-                    image_path = os.path.join(output_directory, image_filename)  
-                    gis.download(image_url, path_to_dir=output_directory)
-
-                    new_image_path = os.path.join(output_directory, f"imagen_{index + 1}.jpg")
-                    os.rename(image_path, new_image_path)
-
-                    print(f"Imagen {index + 1} descargada como {new_image_path}")
-                    
-                    index += 1
-
+            if results: # Seleccionar un resultado aleatorio
+                random_result = random.choice(results) 
+                image_url = random_result.url 
+                image_filename = f"imagen_{index + 1}.jpg" 
+                if urlparse(image_url).path: 
+                    image_filename = os.path.basename(urlparse(image_url).path) 
+                    image_path = os.path.join(output_directory, image_filename) 
+                    gis.download(image_url, path_to_dir=output_directory) 
+                    # Renombrar después de la descarga 
+                    new_image_path = os.path.join(output_directory, f"imagen_{index + 1}.jpg") 
+                    os.rename(image_path, new_image_path) 
+                    print(f"Imagen {index + 1} descargada como {new_image_path}") 
             else:
                 print(f"No hay resultados para la búsqueda en la página {index + 1}")
-
         except Exception as e:
             print(f"Error al descargar la imagen {index + 1}: {str(e)}")
 
