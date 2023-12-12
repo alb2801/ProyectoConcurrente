@@ -5,7 +5,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-def download_and_duplicate_images(tema):
+def download_images(tema):
     # Configuración de la API de Google Images Search
     google_search_cx = '632f67be0671c4172'  # Reemplaza 'tu_cx' con tu propio cx
     google_search_api_key = 'AIzaSyBaISwCxV3YqJ3TFKeJopiqxzRt1uhrVmI'  # Reemplaza 'tu_api_key' con tu propia clave API
@@ -26,14 +26,14 @@ def download_and_duplicate_images(tema):
         try:
             search_params = {
                 'q': search_query,
-                'num': 100,  # Intentaremos obtener 10 resultados y seleccionar uno aleatorio
+                'num': 100,
                 'start': index + 1
             }
 
             gis.search(search_params)
             results = gis.results()
 
-            if results: # Seleccionar un resultado aleatorio
+            if results:
                 random_result = random.choice(results) 
                 image_url = random_result.url 
                 image_filename = f"imagen_{index + 1}.jpg" 
