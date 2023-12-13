@@ -1,10 +1,43 @@
+import time
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Cargar la imagen
-imagen = cv2.imread('cebra.jpg', cv2.IMREAD_GRAYSCALE)
-
+def apply_filter_Sec(pathImagen, filtro):
+    imagen = cv2.imread(pathImagen, cv2.IMREAD_GRAYSCALE)
+    if filtro == "Class 1":
+        time.sleep(np.random.randint(1, 4))
+        Class1(imagen)
+    elif filtro == "Class 2":
+        time.sleep(np.random.randint(1, 4))
+        Class2(imagen)
+    elif filtro == "Class 3":
+        time.sleep(np.random.randint(1, 4))
+        Class3(imagen)
+    elif filtro == "Square 3x3":
+        time.sleep(np.random.randint(1, 4))
+        Square3x3(imagen)
+    elif filtro == "Edge 3x3":
+        time.sleep(np.random.randint(1, 4))
+        Edge3x3(imagen)
+    elif filtro == "Square 5x5":
+        time.sleep(np.random.randint(1, 4))
+        Square5x5(imagen)
+    elif filtro == "Edge 5x5":
+        time.sleep(np.random.randint(1, 4))
+        Edge5x5(imagen)
+    elif filtro == "Sobel":
+        time.sleep(np.random.randint(1, 4))
+        Sobel_x_y(imagen)
+    elif filtro == "Laplace":
+        time.sleep(np.random.randint(1, 4))
+        Laplace(imagen)
+    elif filtro == "Prewitt":
+        time.sleep(np.random.randint(1, 4))
+        Prewitt(imagen)
+    else:
+        raise ValueError("Tipo de filtro no válido")
+    
 def Sobel_x_y(imagen):
     # Definir los kernels de Sobel
     kernel_sobel_vertical = np.array([[0, 0, 0, 0, 0],
@@ -375,6 +408,3 @@ def Prewitt(imagen):
     print(f"Desviación estándar de los píxeles: {std_dev2}")
 
     plt.show()
-
-
-Prewitt(imagen)
