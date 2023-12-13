@@ -80,7 +80,7 @@ def apply_filter_multi(num_processes, filter_type, img_path,contador):
     # Verificar si la imagen se cargó correctamente
     if img is not None:
         # Dividir la imagen en secciones para el multiprocesamiento
-        sections = np.array_split(img, 4)  # Dividir en 4 secciones, puedes ajustar esto según el número de núcleos de tu CPU
+        sections = np.array_split(img, num_processes)  # Dividir en 4 secciones, puedes ajustar esto según el número de núcleos de tu CPU
 
         # Iniciar el pool de procesos
         with Pool(2) as pool:

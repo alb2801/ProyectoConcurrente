@@ -3,14 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpi4py import MPI
 
-def apply_filter(num_procesos, filter_type, random_images):
+def apply_filter(num_procesos, filter_type, path_imagen):
     # Inicializar MPI
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
 
     # Cargar la imagen desde la web (reemplaza 'URL_de_tu_imagen.jpg' con la URL de tu imagen)
-    image_url = random_images
+    image_url = path_imagen
     image = cv2.imread(image_url)
 
 
@@ -41,6 +41,7 @@ def apply_filter(num_procesos, filter_type, random_images):
                             [0, 0, -3, 0, 0],
                             [0, 0, 1, 0, 0],
                             [0, 0, 0, 0, 0]])
+        num_procesos = num_procesos
     elif filter_type == 'Square 3x3':
         kernel = np.array([[0, 0, 0, 0, 0],
                             [0, -1, 2, -1, 0],

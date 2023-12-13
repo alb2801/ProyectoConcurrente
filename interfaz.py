@@ -10,11 +10,11 @@ import time
 from PIL import Image
 import matplotlib.pyplot as plt
 
-def select_random_images():
+def get_all_images():
     image_folder = "imagenes"
     images = [img for img in os.listdir(image_folder) if img.endswith(".jpg")]
-    random_images = random.sample(images, 10)
-    return [os.path.join(image_folder, img) for img in random_images]
+    return [os.path.join(image_folder, img) for img in images]
+
 
 def main():
     st.title("Proyecto Concurrente")
@@ -40,36 +40,35 @@ def main():
                                                                    "Square 3x3", "Edge 3x3", "Square 5x5",
                                                                    "Edge 5x5", "Sobel", "Laplace", "Prewitt"])
 
+    # Obtener todas las imágenes
+    all_images = get_all_images()
+
+    # Seleccionar aleatoriamente 10 imágenes
+    selected_images = random.sample(all_images, 10)
+    
     if st.button("Aplicar filtro"):
         if tipo_paralelismo  == "MPI4PY":
-            random_images = select_random_images()
-            
             inicio_paralelo = time.time()
 
-            for img_path in random_images:
+            for img_path in all_images:
                 img = Image.open(img_path)
-
-                # Crear dos columnas para mostrar las imágenes
-                col1, col2 = st.columns(2)
-
-                # Mostrar la imagen original a la izquierda
-                col1.image(img, caption='Imagen Original', use_column_width=True)
-
+                
                 filtered_image = apply_filter(num_procesos, lista_filtros, img_path)
 
-                # Mostrar la imagen filtrada a la derecha
-                col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
-
-                # Mostrar estadísticas
-                col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
-                col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
-                col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
-                col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
+                # Solo mostrar información detallada para 10 imágenes seleccionadas aleatoriamente
+                if img_path in selected_images:
+                    col1, col2 = st.columns(2)
+                    col1.image(img, caption='Imagen Original', use_column_width=True)
+                    col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
+                    col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
+                    col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
+                    col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
+                    col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
 
             fin_paralelo = time.time()
 
             inicio_secu = time.time()
-            for img_path in random_images:
+            for img_path in all_images:
                 img = Image.open(img_path)
 
                 filtered_image = apply_filter_Sec(img_path, lista_filtros)
@@ -79,45 +78,47 @@ def main():
             # Calcular tiempos y aceleración
             duration_serial = fin_secu - inicio_secu
             duration_parallel = fin_paralelo - inicio_paralelo
+            duration_serial_horas = duration_serial / 3600
+            duration_parallel_horas = duration_parallel / 3600
             acceleration = duration_serial / duration_parallel if duration_parallel > 0 else 0
 
             col1, col2 = st.columns(2)
             # Mostrar resultados
-            col1.write(f"Tiempo en serie: {duration_serial} segundos")
-            col1.write(f"Tiempo en paralelo: {duration_parallel} segundos")
+            col1.write(f"Cantidad de procesos usados: {num_procesos}")
+            col1.write(f"Tiempo en serie: {duration_serial} horas")
+            col1.write(f"Tiempo en paralelo: {duration_parallel} horas")
             col1.write(f"Aceleración: {acceleration}")
 
             # Crear gráfico de barras para comparar tiempos
             fig, ax = plt.subplots()
-            ax.bar(['Serial', 'Paralelo'], [duration_serial, duration_parallel], color=['blue', 'orange'])
-            ax.set_ylabel('Tiempo (segundos)')
+            ax.bar(['Serial', 'Paralelo'], [duration_serial_horas, duration_parallel_horas], color=['blue', 'orange'])
+            ax.set_ylabel('Tiempo (horas)')
             ax.set_title('Comparación de Tiempos en Serie y Paralelo')
 
             col2.pyplot(plt)
 
                 
         elif tipo_paralelismo == "Multiprocessing":
-            random_images = select_random_images()
-            inicio_paralelo = time.time()
-            for contador, img_path in enumerate(random_images, start=1):
-                img = Image.open(img_path)
 
-                col1, col2 = st.columns(2)
-                col1.image(img, caption='Imagen Original', use_column_width=True)
+            inicio_paralelo = time.time()
+            for contador, img_path in enumerate(all_images, start=1):
+                img = Image.open(img_path)
 
                 filtered_image_path = apply_filter_multi(num_procesos, lista_filtros, img_path, contador)
                 filtered_image = Image.open(filtered_image_path)
 
-                col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
-
-                col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
-                col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
-                col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
-                col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
+                if img_path in selected_images:
+                    col1, col2 = st.columns(2)
+                    col1.image(img, caption='Imagen Original', use_column_width=True)
+                    col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
+                    col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
+                    col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
+                    col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
+                    col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
             fin_paralelo = time.time()
 
             inicio_secu = time.time()
-            for img_path in random_images:
+            for img_path in all_images:
                 img = Image.open(img_path)
 
                 filtered_image = apply_filter_Sec(img_path, lista_filtros)
@@ -126,18 +127,22 @@ def main():
             # Calcular tiempos y aceleración
             duration_serial = fin_secu - inicio_secu
             duration_parallel = fin_paralelo - inicio_paralelo
+            duration_serial_horas = duration_serial / 3600
+            duration_parallel_horas = duration_parallel / 3600
+            
             acceleration = duration_serial / duration_parallel if duration_parallel > 0 else 0
 
             col1, col2 = st.columns(2)
             # Mostrar resultados
-            col1.write(f"Tiempo en serie: {duration_serial} segundos")
-            col1.write(f"Tiempo en paralelo: {duration_parallel} segundos")
+            col1.write(f"Cantidad de procesos usados: {num_procesos}")
+            col1.write(f"Tiempo en serie: {duration_serial_horas} horas")
+            col1.write(f"Tiempo en paralelo: {duration_parallel_horas} horas")
             col1.write(f"Aceleración: {acceleration}")
 
             # Crear gráfico de barras para comparar tiempos
             fig, ax = plt.subplots()
-            ax.bar(['Serial', 'Paralelo'], [duration_serial, duration_parallel], color=['blue', 'orange'])
-            ax.set_ylabel('Tiempo (segundos)')
+            ax.bar(['Serial', 'Paralelo'], [duration_serial_horas, duration_parallel_horas], color=['blue', 'orange'])
+            ax.set_ylabel('Tiempo (horas)')
             ax.set_title('Comparación de Tiempos en Serie y Paralelo')
 
             col2.pyplot(plt)
