@@ -32,6 +32,32 @@ def Sobel_x_y(imagen):
 
     plt.subplot(1, 3, 3), plt.imshow(filtro_horizontal, cmap='gray')
     plt.title('Sobel Horizontal'), plt.xticks([]), plt.yticks([])
+    
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_vertical.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_vertical)
+    max_val = np.max(filtro_vertical)
+    mean_val = np.mean(filtro_vertical)
+    std_dev = np.std(filtro_vertical)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
+    print(f"Dimensiones de la imagen filtrada en horizontal: {filtro_horizontal.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val2 = np.min(filtro_horizontal)
+    max_val2 = np.max(filtro_horizontal)
+    mean_val2 = np.mean(filtro_horizontal)
+    std_dev2 = np.std(filtro_horizontal)
+
+    print(f"Valor mínimo de los píxeles: {min_val2}")
+    print(f"Valor máximo de los píxeles: {max_val2}")
+    print(f"Valor medio de los píxeles: {mean_val2}")
+    print(f"Desviación estándar de los píxeles: {std_dev2}")
 
     plt.show()
 
@@ -54,6 +80,19 @@ def Class1(imagen):
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Class1'), plt.xticks([]), plt.yticks([])
 
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
     plt.show()
 
 
@@ -75,6 +114,19 @@ def Class2(imagen):
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Class2'), plt.xticks([]), plt.yticks([])
 
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
     plt.show()
 
 def Class3(imagen):
@@ -94,6 +146,19 @@ def Class3(imagen):
 
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Class3'), plt.xticks([]), plt.yticks([])
+
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
 
     plt.show()
 
@@ -115,6 +180,19 @@ def Square3x3(imagen):
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Square3x3'), plt.xticks([]), plt.yticks([])
 
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
     plt.show()
 
 def Edge3x3(imagen):
@@ -134,6 +212,19 @@ def Edge3x3(imagen):
 
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Edge3x3'), plt.xticks([]), plt.yticks([])
+
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
 
     plt.show()
 
@@ -155,6 +246,19 @@ def Square5x5(imagen):
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Square5x5'), plt.xticks([]), plt.yticks([])
 
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
     plt.show()
 
 def Edge5x5(imagen):
@@ -174,6 +278,18 @@ def Edge5x5(imagen):
 
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Edge5x5'), plt.xticks([]), plt.yticks([])
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
 
     plt.show()
 
@@ -192,6 +308,19 @@ def Laplace(imagen):
 
     plt.subplot(1, 2, 2), plt.imshow(filtro_resultado, cmap='gray')
     plt.title('Filtro Laplace'), plt.xticks([]), plt.yticks([])
+
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_resultado.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_resultado)
+    max_val = np.max(filtro_resultado)
+    mean_val = np.mean(filtro_resultado)
+    std_dev = np.std(filtro_resultado)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
 
     plt.show()
 
@@ -219,7 +348,33 @@ def Prewitt(imagen):
     plt.subplot(1, 3, 3), plt.imshow(filtro_horizontal, cmap='gray')
     plt.title('Prewitt Horizontal'), plt.xticks([]), plt.yticks([])
 
+    print(f"Dimensiones de la imagen filtrada en vertical: {filtro_vertical.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val = np.min(filtro_vertical)
+    max_val = np.max(filtro_vertical)
+    mean_val = np.mean(filtro_vertical)
+    std_dev = np.std(filtro_vertical)
+
+    print(f"Valor mínimo de los píxeles: {min_val}")
+    print(f"Valor máximo de los píxeles: {max_val}")
+    print(f"Valor medio de los píxeles: {mean_val}")
+    print(f"Desviación estándar de los píxeles: {std_dev}")
+
+    print(f"Dimensiones de la imagen filtrada en horizontal: {filtro_horizontal.shape}")
+
+    # Obtener valor mínimo, máximo, medio y desviación estándar de los píxeles
+    min_val2 = np.min(filtro_horizontal)
+    max_val2 = np.max(filtro_horizontal)
+    mean_val2 = np.mean(filtro_horizontal)
+    std_dev2 = np.std(filtro_horizontal)
+
+    print(f"Valor mínimo de los píxeles: {min_val2}")
+    print(f"Valor máximo de los píxeles: {max_val2}")
+    print(f"Valor medio de los píxeles: {mean_val2}")
+    print(f"Desviación estándar de los píxeles: {std_dev2}")
+
     plt.show()
 
 
-Class1(imagen)
+Prewitt(imagen)
