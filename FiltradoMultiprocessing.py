@@ -4,49 +4,49 @@ from multiprocessing import Pool
 
 # Función para aplicar el filtro en una sección de la imagen
 def apply_filter(img_section, filter_type):
-    if filter_type == 'class1':
+    if filter_type == 'Class 1':
         kernel = np.array([[0, 0, 0, 0, 0],
                            [0, 0, 1, 0, 0],
                            [0, 0, -1, 0, 0],
                            [0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'class2':
+    elif filter_type == 'Class 2':
         kernel = np.array([[0, 0, 0, 0, 0],
                            [0, 0, 1, 0, 0],
                            [0, 0, -2, 0, 0],
                            [0, 0, 1, 0, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'class3':
+    elif filter_type == 'Class 3':
         kernel = np.array([[0, 0, -1, 0, 0],
                            [0, 0, 3, 0, 0],
                            [0, 0, -3, 0, 0],
                            [0, 0, 1, 0, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'square3x3':
+    elif filter_type == 'Square 3x3':
         kernel = np.array([[0, 0, 0, 0, 0],
                            [0, -1, 2, -1, 0],
                            [0, 2, -4, 2, 0],
                            [0, -1, 2, -1, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'edge3x3':
+    elif filter_type == 'Edge 3x3':
         kernel = np.array([[0, 0, 0, 0, 0],
                            [0, -1, 2, -1, 0],
                            [0, 2, -4, 2, 0],
                            [0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'square5x5':
+    elif filter_type == 'Square 5x5':
         kernel = np.array([[-1, 2, -2, 2, -1],
                            [2, -6, 8, -6, 2],
                            [-2, 8, -12, 8, -2],
                            [2, -6, 8, -6, 2],
                            [-1, 2, -2, 2, -1]])
-    elif filter_type == 'edge5x5':
+    elif filter_type == 'Edge 5x5':
         kernel = np.array([[-1, 2, -2, 2, -1],
                            [2, -6, 8, -6, 2],
                            [-2, 8, -12, 8, -2],
                            [0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0]])
-    elif filter_type == 'sobel_vertical':
+    elif filter_type == 'Sobel':
         kernel = np.array([[-1, 0, 1],
                            [-2, 0, 2],
                            [-1, 0, 1]])
@@ -54,7 +54,7 @@ def apply_filter(img_section, filter_type):
         kernel = np.array([[-1, -2, -1],
                            [0, 0, 0],
                            [1, 2, 1]])
-    elif filter_type == 'laplace':
+    elif filter_type == 'Laplace':
         kernel = np.array([[-1, -1, -1],
                            [-1, 8, -1],
                            [-1, -1, -1]])
@@ -62,7 +62,7 @@ def apply_filter(img_section, filter_type):
         kernel = np.array([[-1, 0, 1],
                            [-1, 0, 1],
                            [-1, 0, 1]])
-    elif filter_type == 'prewitt_h':
+    elif filter_type == 'Prewitts':
         kernel = np.array([[-1, -1, -1],
                               [0, 0, 0],
                               [1, 1, 1]])
@@ -72,9 +72,9 @@ def apply_filter(img_section, filter_type):
     filtered_section = cv2.filter2D(img_section, -1, kernel)
     return filtered_section
 
-def main():
+def apply_filter_multi(num_processes, filter_type, img_path,contador):
     # Cargar la imagen
-    image_path = 'messi.jpg'  # Reemplaza con la ruta de tu imagen
+    image_path = img_path  # Reemplaza con la ruta de tu imagen
     img = cv2.imread(image_path)
 
     # Verificar si la imagen se cargó correctamente
@@ -86,21 +86,13 @@ def main():
         with Pool(2) as pool:
             # Aplicar el filtro en paralelo a cada sección de la imagen
             # Puedes cambiar el tipo de filtro aquí ('custom', 'sobel_vertical', 'sobel_horizontal')
-            results = pool.starmap(apply_filter, [(section, 'laplace') for section in sections])
+            results = pool.starmap(apply_filter, [(section, filter_type) for section in sections])
 
         # Combinar los resultados en una sola imagen
         filtered_img = np.vstack(results)
 
         # Descarga imagen filtrada
-        cv2.imwrite('imagen_filtrada.jpg', filtered_img)
-
-        # Mostrar la imagen original
-        cv2.imshow('Imagen Original', img)
-
-        # Mostrar la imagen filtrada
-        cv2.imshow('Imagen Filtrada', filtered_img)
-        cv2.waitKey(0)  # Esperar hasta que se presione una tecla
-        cv2.destroyAllWindows()  # Cerrar las ventanas después de presionar una tecla
+        cv2.imwrite(f'imagen_filtrada{contador}.jpg', filtered_img)
 
         # Mostrar las dimensiones de la imagen filtrada
         print(f"Dimensiones de la imagen filtrada: {filtered_img.shape}")
@@ -116,8 +108,7 @@ def main():
         print(f"Valor medio de los píxeles: {mean_val}")
         print(f"Desviación estándar de los píxeles: {std_dev}")
 
+        return f'imagen_filtrada{contador}.jpg'
+
     else:
         print("No se pudo cargar la imagen. Verifica la ruta y el formato de la imagen.")
-
-if __name__ == '__main__':
-    main()

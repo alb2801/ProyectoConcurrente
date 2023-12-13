@@ -2,6 +2,7 @@ import numpy as np
 import streamlit as st
 from DescargarIma import download_images
 from FiltradoMPI4PY import apply_filter
+from FiltradoMultiprocessing import apply_filter_multi
 import os
 import random
 from PIL import Image
@@ -37,26 +38,47 @@ def main():
                                                                    "Edge 5x5", "Sobel", "Laplace", "Prewitt"])
 
     if st.button("Aplicar filtro"):
-        random_images = select_random_images()
-        for img_path in random_images:
-            img = Image.open(img_path)
+        if tipo_paralelismo  == "MPI4PY":
+            random_images = select_random_images()
+            for img_path in random_images:
+                img = Image.open(img_path)
 
-            # Crear dos columnas para mostrar las imágenes
-            col1, col2 = st.columns(2)
+                # Crear dos columnas para mostrar las imágenes
+                col1, col2 = st.columns(2)
 
-            # Mostrar la imagen original a la izquierda
-            col1.image(img, caption='Imagen Original', use_column_width=True)
+                # Mostrar la imagen original a la izquierda
+                col1.image(img, caption='Imagen Original', use_column_width=True)
 
-            filtered_image = apply_filter(num_procesos, lista_items, img_path)
+                filtered_image = apply_filter(num_procesos, lista_items, img_path)
 
-            # Mostrar estadísticas
-            col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
-            col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
-            col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
-            col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
+                # Mostrar la imagen filtrada a la derecha
+                col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
 
-            # Mostrar la imagen filtrada a la derecha
-            col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
+                # Mostrar estadísticas
+                col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
+                col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
+                col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
+                col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
+
+                
+        elif tipo_paralelismo == "Multiprocessing":
+            random_images = select_random_images()
+            for contador, img_path in enumerate(random_images, start=1):
+                img = Image.open(img_path)
+
+                col1, col2 = st.columns(2)
+                col1.image(img, caption='Imagen Original', use_column_width=True)
+
+                filtered_image_path = apply_filter_multi(num_procesos, lista_items, img_path, contador)
+                filtered_image = Image.open(filtered_image_path)
+
+                col2.image(filtered_image, caption='Imagen Filtrada', use_column_width=True, channels='GRAY')
+
+                col2.write(f"Valor mínimo de los píxeles: {np.min(filtered_image)}")
+                col2.write(f"Valor máximo de los píxeles: {np.max(filtered_image)}")
+                col2.write(f"Valor medio de los píxeles: {np.mean(filtered_image)}")
+                col2.write(f"Desviación estándar de los píxeles: {np.std(filtered_image)}")
+
 
 if __name__ == "__main__":
     main()
