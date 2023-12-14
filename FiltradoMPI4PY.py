@@ -15,7 +15,7 @@ def apply_filter(num_procesos, filter_type, path_imagen):
 
 
     # Dividir la imagen en partes iguales entre los procesos
-    rows_per_process = image.shape[0] // size
+    rows_per_process = image.shape[0] // num_procesos
     start_row = rank * rows_per_process
     end_row = (rank + 1) * rows_per_process if rank != size - 1 else image.shape[0]
 
@@ -41,7 +41,6 @@ def apply_filter(num_procesos, filter_type, path_imagen):
                             [0, 0, -3, 0, 0],
                             [0, 0, 1, 0, 0],
                             [0, 0, 0, 0, 0]])
-        num_procesos = num_procesos
     elif filter_type == 'Square 3x3':
         kernel = np.array([[0, 0, 0, 0, 0],
                             [0, -1, 2, -1, 0],
